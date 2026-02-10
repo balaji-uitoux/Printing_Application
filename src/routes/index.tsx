@@ -7,11 +7,13 @@ import Dashboard from '../pages/Dashboard';
 import Enquiry from '../pages/Enquiry';
 import Quotations from '../pages/Quotations';
 import CreateQuotation from '../pages/CreateQuotation';
+import JobOrder from '../pages/JobOrder';
+import Production from '../pages/Production';
 import Locations from '../features/masters/locations/Locations';
 import Clients from '../features/masters/clients/Clients';
 import ProductCategories from '../features/masters/product-categories/ProductCategories';
 import Products from '../features/masters/products/Products';
-import Boards from '../features/masters/boards/Boards';
+import Pricing from '../features/masters/pricing/Pricing';
 import Users from '../features/masters/users/Users';
 import Machines from '../features/masters/machines/Machines';
 import Shifts from '../features/masters/shifts/Shifts';
@@ -117,8 +119,8 @@ export const router = createBrowserRouter([
         element: <Products />,
       },
       {
-        path: 'masters/boards',
-        element: <Boards />,
+        path: 'masters/pricing',
+        element: <Pricing />,
       },
       {
         path: 'masters/users',
@@ -162,11 +164,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'orders',
-        element: <PlaceholderPage title="Orders" />,
+        element: <JobOrder />,
       },
       {
         path: 'production',
-        element: <PlaceholderPage title="Production" />,
+        element: <Production />,
       },
       {
         path: 'departments',

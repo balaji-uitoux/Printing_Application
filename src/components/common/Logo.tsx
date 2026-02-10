@@ -1,4 +1,3 @@
-import { themeColors } from '../../theme/themeConfig';
 
 interface LogoProps {
   collapsed?: boolean;

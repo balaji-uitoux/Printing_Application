@@ -110,16 +110,6 @@ const Machines = () => {
     message.success(`Status updated to ${newStatus}`);
   };
 
-  const getStatusColor = (status: string) => {
-    const colors: Record<string, string> = {
-      Running: 'green',
-      Idle: 'orange',
-      Maintenance: 'blue',
-      Offline: 'red',
-    };
-    return colors[status] || 'default';
-  };
-
   const columns: ColumnsType<Machine> = [
     {
       title: 'Code',

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Table, Button, Input, Space, Card, Select, Tag } from 'antd';
-import { EyeOutlined, EditOutlined, FileTextOutlined, SearchOutlined, PlusOutlined, DownOutlined } from '@ant-design/icons';
+import { Table, Button, Input, Space, Card, Tag, Tooltip } from 'antd';
+import { EyeOutlined, EditOutlined, FileTextOutlined, SearchOutlined, PlusOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import type { Enquiry as EnquiryType } from '../../types';
 import { message } from 'antd';
@@ -8,127 +8,163 @@ import { useNavigate } from 'react-router-dom';
 import AddEnquiryDrawer from '../../components/enquiry/AddEnquiryDrawer';
 import ViewEnquiryDrawer from '../../components/enquiry/ViewEnquiryDrawer';
 
-// Mock data
-const mockEnquiries: EnquiryType[] = [
+// Mock data with products array
+const mockEnquiries: (EnquiryType & { products?: string[]; contactNumber?: string; email?: string })[] = [
   {
     id: '1',
     enquiryNumber: 'ENQ-2024-001',
     customerName: 'Acme Corporation',
-    productType: 'Business Cards',
+    productType: 'AALIA & ANUSHKA SLIPS',
     quantity: 1000,
-    requestDate: '2024-01-15',
+    enquiryDate: '2024-01-15',
     status: 'New',
     estimatedCost: 250,
+    products: ['AALIA & ANUSHKA SLIPS'],
+    contactNumber: '+91 98765 43210',
+    email: 'contact@acmecorp.com',
   },
   {
     id: '2',
     enquiryNumber: 'ENQ-2024-002',
     customerName: 'Tech Solutions Inc',
-    productType: 'Brochures',
+    productType: 'PUFFY & KURTHA BOX',
     quantity: 500,
-    requestDate: '2024-01-16',
+    enquiryDate: '2024-01-16',
     status: 'Quoted',
     estimatedCost: 890,
+    products: ['PUFFY & KURTHA BOX', 'DEEPIKA & MICHELLE SLIPS'],
+    contactNumber: '+91 98234 56789',
+    email: 'info@techsolutions.com',
   },
   {
     id: '3',
     enquiryNumber: 'ENQ-2024-003',
     customerName: 'Green Earth LLC',
-    productType: 'Flyers',
+    productType: 'EVELY SLIPS 6pcs BOX',
     quantity: 2000,
-    requestDate: '2024-01-17',
+    enquiryDate: '2024-01-17',
     status: 'Approved',
     estimatedCost: 450,
+    products: ['EVELY SLIPS 6pcs BOX', 'XPC - 99 BOX', 'RIYA KIDS PANTIES PHOTOCARD'],
+    contactNumber: '+91 99876 54321',
+    email: 'contact@greenearth.com',
   },
   {
     id: '4',
     enquiryNumber: 'ENQ-2024-004',
     customerName: 'Urban Designs',
-    productType: 'Banners',
+    productType: 'XPC - 99 BOX',
     quantity: 10,
-    requestDate: '2024-01-18',
+    enquiryDate: '2024-01-18',
     status: 'In Progress',
     estimatedCost: 1200,
+    products: ['XPC - 99 BOX'],
+    contactNumber: '+91 97654 32109',
+    email: 'hello@urbandesigns.com',
   },
   {
     id: '5',
     enquiryNumber: 'ENQ-2024-005',
     customerName: 'Bright Marketing',
-    productType: 'Posters',
+    productType: 'RIYA KIDS PANTIES PHOTOCARD',
     quantity: 300,
-    requestDate: '2024-01-19',
+    enquiryDate: '2024-01-19',
     status: 'New',
     estimatedCost: 680,
+    products: ['RIYA KIDS PANTIES PHOTOCARD', 'AALIA & ANUSHKA SLIPS'],
+    contactNumber: '+91 96543 21098',
+    email: 'team@brightmarketing.com',
   },
   {
     id: '6',
     enquiryNumber: 'ENQ-2024-006',
     customerName: 'Elite Events',
-    productType: 'Labels',
+    productType: 'DEEPIKA & MICHELLE SLIPS',
     quantity: 5000,
-    requestDate: '2024-01-20',
+    enquiryDate: '2024-01-20',
     status: 'Quoted',
     estimatedCost: 1500,
+    products: ['DEEPIKA & MICHELLE SLIPS', 'PUFFY & KURTHA BOX', 'EVELY SLIPS 6pcs BOX'],
+    contactNumber: '+91 95432 10987',
+    email: 'events@eliteevents.com',
   },
   {
     id: '7',
     enquiryNumber: 'ENQ-2024-007',
     customerName: 'Modern Retail Co',
-    productType: 'Catalogs',
+    productType: 'EVELY SLIPS 6pcs BOX',
     quantity: 200,
-    requestDate: '2024-01-21',
+    enquiryDate: '2024-01-21',
     status: 'Rejected',
     estimatedCost: 2100,
+    products: ['EVELY SLIPS 6pcs BOX'],
+    contactNumber: '+91 94321 09876',
+    email: 'sales@modernretail.com',
   },
   {
     id: '8',
     enquiryNumber: 'ENQ-2024-008',
     customerName: 'Fashion Forward',
-    productType: 'Hangtags',
+    productType: 'AALIA & ANUSHKA SLIPS',
     quantity: 10000,
-    requestDate: '2024-01-22',
+    enquiryDate: '2024-01-22',
     status: 'Approved',
     estimatedCost: 3500,
+    products: ['AALIA & ANUSHKA SLIPS', 'DEEPIKA & MICHELLE SLIPS', 'XPC - 99 BOX', 'RIYA KIDS PANTIES PHOTOCARD'],
+    contactNumber: '+91 93210 98765',
+    email: 'orders@fashionforward.com',
   },
   {
     id: '9',
     enquiryNumber: 'ENQ-2024-009',
     customerName: 'Food Delight',
-    productType: 'Menu Cards',
+    productType: 'PUFFY & KURTHA BOX',
     quantity: 800,
-    requestDate: '2024-01-23',
+    enquiryDate: '2024-01-23',
     status: 'In Progress',
     estimatedCost: 950,
+    products: ['PUFFY & KURTHA BOX', 'EVELY SLIPS 6pcs BOX'],
+    contactNumber: '+91 92109 87654',
+    email: 'info@fooddelight.com',
   },
   {
     id: '10',
     enquiryNumber: 'ENQ-2024-010',
     customerName: 'Real Estate Pro',
-    productType: 'Booklets',
+    productType: 'XPC - 99 BOX',
     quantity: 150,
-    requestDate: '2024-01-24',
+    enquiryDate: '2024-01-24',
     status: 'New',
     estimatedCost: 1850,
+    products: ['XPC - 99 BOX', 'AALIA & ANUSHKA SLIPS'],
+    contactNumber: '+91 91098 76543',
+    email: 'contact@realestatepro.com',
   },
   {
     id: '11',
     enquiryNumber: 'ENQ-2024-011',
     customerName: 'Wellness Center',
-    productType: 'Business Cards',
+    productType: 'RIYA KIDS PANTIES PHOTOCARD',
     quantity: 500,
-    requestDate: '2024-01-25',
+    enquiryDate: '2024-01-25',
     status: 'Quoted',
     estimatedCost: 125,
+    products: ['RIYA KIDS PANTIES PHOTOCARD'],
+    contactNumber: '+91 90987 65432',
+    email: 'wellness@center.com',
   },
   {
     id: '12',
     enquiryNumber: 'ENQ-2024-012',
     customerName: 'Auto Services Ltd',
-    productType: 'Stickers',
+    productType: 'DEEPIKA & MICHELLE SLIPS',
     quantity: 3000,
-    requestDate: '2024-01-26',
+    enquiryDate: '2024-01-26',
     status: 'Approved',
     estimatedCost: 780,
+    products: ['DEEPIKA & MICHELLE SLIPS', 'PUFFY & KURTHA BOX'],
+    contactNumber: '+91 89876 54321',
+    email: 'service@autoservices.com',
   },
 ];
 
@@ -151,13 +187,6 @@ const Enquiry = () => {
     setFilteredData(filtered);
   };
 
-  const handleStatusChange = (enquiryId: string, newStatus: string) => {
-    const updatedData = filteredData.map((item) =>
-      item.id === enquiryId ? { ...item, status: newStatus as EnquiryType['status'] } : item
-    );
-    setFilteredData(updatedData);
-    message.success(`Status updated to ${newStatus}`);
-  };
 
   const handleAddEnquiry = () => {
     setDrawerOpen(true);
@@ -190,37 +219,62 @@ const Enquiry = () => {
       sorter: (a, b) => a.customerName.localeCompare(b.customerName),
     },
     {
-      title: 'Product Type',
-      dataIndex: 'productType',
-      key: 'productType',
-      filters: [
-        { text: 'Business Cards', value: 'Business Cards' },
-        { text: 'Brochures', value: 'Brochures' },
-        { text: 'Flyers', value: 'Flyers' },
-        { text: 'Banners', value: 'Banners' },
-        { text: 'Labels', value: 'Labels' },
-      ],
-      onFilter: (value, record) => record.productType === value,
+      title: 'Contact Number',
+      dataIndex: 'contactNumber',
+      key: 'contactNumber',
+      width: 150,
+      render: (contactNumber: string) => (
+        <span style={{ fontSize: '13px', color: '#475569' }}>{contactNumber}</span>
+      ),
     },
     {
-      title: 'Quantity',
-      dataIndex: 'quantity',
-      key: 'quantity',
-      sorter: (a, b) => a.quantity - b.quantity,
-      render: (value) => value.toLocaleString(),
+      title: 'Email ID',
+      dataIndex: 'email',
+      key: 'email',
+      width: 200,
+      render: (email: string) => (
+        <span style={{ fontSize: '13px', color: '#475569' }}>{email}</span>
+      ),
     },
     {
-      title: 'Date',
-      dataIndex: 'requestDate',
-      key: 'requestDate',
-      sorter: (a, b) => new Date(a.requestDate).getTime() - new Date(b.requestDate).getTime(),
-    },
-    {
-      title: 'Estimated Cost',
-      dataIndex: 'estimatedCost',
-      key: 'estimatedCost',
-      sorter: (a, b) => (a.estimatedCost || 0) - (b.estimatedCost || 0),
-      render: (value) => (value ? `₹${value.toLocaleString()}` : '-'),
+      title: (
+        <span>
+          No. of Products{' '}
+          <Tooltip title="View product details">
+            <InfoCircleOutlined style={{ fontSize: '12px', color: '#64748B', cursor: 'pointer' }} />
+          </Tooltip>
+        </span>
+      ),
+      key: 'productCount',
+      width: 150,
+      render: (_, record: any) => {
+        const products = record.products || [];
+        const productCount = products.length;
+
+        const productTooltipContent = (
+          <div style={{ maxWidth: '300px' }}>
+            <div style={{ fontWeight: 600, marginBottom: '8px' }}>
+              {productCount} {productCount === 1 ? 'Product' : 'Products'}:
+            </div>
+            <ul style={{ margin: 0, paddingLeft: '20px' }}>
+              {products.map((product: string, index: number) => (
+                <li key={index} style={{ marginBottom: '4px' }}>
+                  {product}
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+
+        return (
+          <Tooltip title={productTooltipContent} placement="topLeft">
+            <span style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
+              {productCount}
+              <InfoCircleOutlined style={{ fontSize: '14px', color: '#3B82F6' }} />
+            </span>
+          </Tooltip>
+        );
+      },
     },
     {
       title: 'Status',
@@ -234,7 +288,7 @@ const Enquiry = () => {
         { text: 'In Progress', value: 'In Progress' },
       ],
       onFilter: (value, record) => record.status === value,
-      render: (status, record) => {
+      render: (status) => {
         const getStatusColor = (status: string) => {
           const colors: Record<string, string> = {
             New: 'blue',
@@ -247,31 +301,9 @@ const Enquiry = () => {
         };
 
         return (
-          <Select
-            value={status}
-            onChange={(newStatus) => handleStatusChange(record.id, newStatus)}
-            style={{ width: '140px' }}
-            size="small"
-            variant="borderless"
-            suffixIcon={null}
-            options={[
-              { value: 'New', label: 'New' },
-              { value: 'Quoted', label: 'Quoted' },
-              { value: 'Approved', label: 'Approved' },
-              { value: 'Rejected', label: 'Rejected' },
-              { value: 'In Progress', label: 'In Progress' },
-            ]}
-            labelRender={({ value }) => (
-              <Tag color={getStatusColor(value as string)} style={{ margin: 0, cursor: 'pointer' }}>
-                {value} <DownOutlined style={{ fontSize: '10px', marginLeft: '4px' }} />
-              </Tag>
-            )}
-            optionRender={(option) => (
-              <Tag color={getStatusColor(option.value as string)} style={{ margin: '4px 0', width: '100%' }}>
-                {option.label}
-              </Tag>
-            )}
-          />
+          <Tag color={getStatusColor(status)} style={{ margin: 0 }}>
+            {status}
+          </Tag>
         );
       },
     },

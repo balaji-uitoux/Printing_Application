@@ -1,19 +1,20 @@
-import { Drawer, Form, Button, InputNumber } from 'antd';
-import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
+import { Modal, Form, Button, InputNumber } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { typography } from '../../theme/typography';
 import { themeColors } from '../../theme/themeConfig';
 
-interface AddDieDrawerProps {
+interface AddDieModalProps {
   open: boolean;
   onClose: () => void;
 }
 
-const AddDieDrawer = ({ open, onClose }: AddDieDrawerProps) => {
+const AddDieModal = ({ open, onClose }: AddDieModalProps) => {
   const [form] = Form.useForm();
 
   const handleSubmit = () => {
     form.validateFields().then((values) => {
       console.log('Form values:', values);
+      form.resetFields();
       onClose();
     });
   };
@@ -25,51 +26,20 @@ const AddDieDrawer = ({ open, onClose }: AddDieDrawerProps) => {
   };
 
   return (
-    <Drawer
+    <Modal
       title={
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+        <h2 style={{
+          margin: 0,
+          fontSize: '20px',
+          fontWeight: 600,
+          color: themeColors.text,
         }}>
-          <h2 style={{
-            margin: 0,
-            fontSize: '24px',
-            fontWeight: 700,
-            color: themeColors.text,
-          }}>
-            Add Die
-          </h2>
-          <Button
-            type="text"
-            icon={<CloseOutlined />}
-            onClick={onClose}
-            style={{
-              fontSize: '16px',
-              color: themeColors.textSecondary,
-              width: '32px',
-              height: '32px',
-            }}
-          />
-        </div>
+          Add Die Rate
+        </h2>
       }
-      placement="right"
-      width="40%"
-      onClose={onClose}
       open={open}
-      closable={false}
-      styles={{
-        body: {
-          padding: '24px',
-          background: 'rgba(232, 237, 242, 0.4)',
-          backdropFilter: 'blur(40px)',
-        },
-        header: {
-          background: '#FFFFFF',
-          borderBottom: '1px solid rgba(226, 232, 240, 0.4)',
-          padding: '16px 24px',
-        },
-      }}
+      onCancel={onClose}
+      width={500}
       footer={
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
           <Button
@@ -96,7 +66,7 @@ const AddDieDrawer = ({ open, onClose }: AddDieDrawerProps) => {
               ...typography.body
             }}
           >
-            Add Die
+            Add Die Rate
           </Button>
         </div>
       }
@@ -115,8 +85,8 @@ const AddDieDrawer = ({ open, onClose }: AddDieDrawerProps) => {
           />
         </Form.Item>
       </Form>
-    </Drawer>
+    </Modal>
   );
 };
 
-export default AddDieDrawer;
+export default AddDieModal;

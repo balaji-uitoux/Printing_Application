@@ -80,14 +80,27 @@ export interface EnquiryFormData {
 
 // Client Form Data
 export interface ClientFormData {
-  code: string;
-  name: string;
-  contactPerson: string;
+  displayName: string;
+  salutation?: 'Mr.' | 'Ms.' | 'Mrs.' | 'Dr.';
+  firstName: string;
+  lastName: string;
+  contactNumber?: string;
+  mobileNumber: string;
   email: string;
-  phone: string;
-  city: string;
-  gstNumber: string;
-  address?: string;
+  // Company Address
+  companyPincode: string;
+  companyStreet: string;
+  companyState: string;
+  companyCity: string;
+  // Billing Address
+  sameAsCompanyAddress?: boolean;
+  billingPincode?: string;
+  billingStreet?: string;
+  billingState?: string;
+  billingCity?: string;
+  // GST Details
+  gstNumber?: string;
+  gstTreatment?: 'Registered' | 'Unregistered' | 'Composition' | 'Consumer' | 'Overseas';
   status: 'Active' | 'Inactive';
 }
 

@@ -2,6 +2,8 @@
 
 > **Purpose**: This document serves as a comprehensive reference for all theme, styling, and layout conventions used in the Printing Press Application. Use this to maintain consistency across all components and pages, especially after context resets.
 
+**To keep in mind** : You are a senior Designer with frontend development, and good creative thinking to make the UI look clean and modern. Dont Hallocinate, and dont assume, just work on the requirments, and use the same UI elements and componants from the theme always refer the theme to work,and dont make the same mistakes repeatedlly. You say its fixed and while looking the local host the changes are not made.And dont change any UI unless said and dont make any changes to the section not told or mention to make changes.
+
 **Last Updated**: 2026-02-03
 **Version**: 1.0
 

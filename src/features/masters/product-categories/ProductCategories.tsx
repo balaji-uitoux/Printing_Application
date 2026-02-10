@@ -115,12 +115,6 @@ const ProductCategories = () => {
       key: 'description',
     },
     {
-      title: 'Product Count',
-      dataIndex: 'productCount',
-      key: 'productCount',
-      sorter: (a, b) => a.productCount - b.productCount,
-    },
-    {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',

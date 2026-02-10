@@ -1,17 +1,21 @@
 import { useState } from 'react';
 import { Table, Button, Input, Space, Tag, Card, Select, message } from 'antd';
-import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, DownOutlined } from '@ant-design/icons';
+import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, DownOutlined, EyeOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import AddClientDrawer from '../../../components/masters/AddClientDrawer';
+import ViewClientDrawer from '../../../components/masters/ViewClientDrawer';
+import type { ClientFormData } from '../../../types';
 
 interface Client {
   id: string;
   code: string;
   name: string;
+  salutation: string;
   contactPerson: string;
   email: string;
   phone: string;
   city: string;
+  address: string;
   gstNumber: string;
   outstandingAmount: number;
   status: 'Active' | 'Inactive';
@@ -22,10 +26,12 @@ const mockClients: Client[] = [
     id: '1',
     code: 'CLI-001',
     name: 'Acme Corporation',
+    salutation: 'Mr.',
     contactPerson: 'John Smith',
     email: 'john@acme.com',
     phone: '+91 9876543210',
     city: 'Mumbai',
+    address: '123 Business Park, Andheri East, Mumbai, Maharashtra',
     gstNumber: '27AABCU9603R1ZM',
     outstandingAmount: 45000,
     status: 'Active',
@@ -34,10 +40,12 @@ const mockClients: Client[] = [
     id: '2',
     code: 'CLI-002',
     name: 'Tech Solutions Pvt Ltd',
+    salutation: 'Ms.',
     contactPerson: 'Sarah Johnson',
     email: 'sarah@techsol.com',
     phone: '+91 9876543211',
     city: 'Bangalore',
+    address: '456 Tech Hub, Whitefield, Bangalore, Karnataka',
     gstNumber: '29AABCT1332L1ZV',
     outstandingAmount: 0,
     status: 'Active',
@@ -46,10 +54,12 @@ const mockClients: Client[] = [
     id: '3',
     code: 'CLI-003',
     name: 'Green Earth Industries',
+    salutation: 'Mr.',
     contactPerson: 'Michael Chen',
     email: 'michael@greenearth.com',
     phone: '+91 9876543212',
     city: 'Delhi',
+    address: '789 Eco Plaza, Connaught Place, Delhi',
     gstNumber: '07AABCG5623E1ZH',
     outstandingAmount: 23500,
     status: 'Active',
@@ -58,10 +68,12 @@ const mockClients: Client[] = [
     id: '4',
     code: 'CLI-004',
     name: 'Urban Designs Studio',
+    salutation: 'Mrs.',
     contactPerson: 'Emma Wilson',
     email: 'emma@urbandesigns.com',
     phone: '+91 9876543213',
     city: 'Pune',
+    address: '321 Design Avenue, Koregaon Park, Pune, Maharashtra',
     gstNumber: '27AABCU1234M1ZN',
     outstandingAmount: 12000,
     status: 'Inactive',
@@ -70,10 +82,12 @@ const mockClients: Client[] = [
     id: '5',
     code: 'CLI-005',
     name: 'Bright Marketing Agency',
+    salutation: 'Mr.',
     contactPerson: 'David Brown',
     email: 'david@brightmarketing.com',
     phone: '+91 9876543214',
     city: 'Chennai',
+    address: '555 Marketing Tower, Anna Nagar, Chennai, Tamil Nadu',
     gstNumber: '33AABCB5678P1ZR',
     outstandingAmount: 8500,
     status: 'Active',
@@ -84,6 +98,8 @@ const Clients = () => {
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState(mockClients);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [viewDrawerOpen, setViewDrawerOpen] = useState(false);
+  const [selectedClient, setSelectedClient] = useState<ClientFormData | null>(null);
 
   const handleSearch = (value: string) => {
     setSearchText(value);
@@ -91,7 +107,11 @@ const Clients = () => {
       (item) =>
         item.name.toLowerCase().includes(value.toLowerCase()) ||
         item.code.toLowerCase().includes(value.toLowerCase()) ||
-        item.contactPerson.toLowerCase().includes(value.toLowerCase())
+        item.contactPerson.toLowerCase().includes(value.toLowerCase()) ||
+        item.email.toLowerCase().includes(value.toLowerCase()) ||
+        item.phone.includes(value) ||
+        item.city.toLowerCase().includes(value.toLowerCase()) ||
+        item.gstNumber.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredData(filtered);
   };
@@ -102,6 +122,32 @@ const Clients = () => {
     );
     setFilteredData(updatedData);
     message.success(`Status updated to ${newStatus}`);
+  };
+
+  const handleViewClient = (client: Client) => {
+    // Convert old Client interface to new ClientFormData format with dummy address data
+    const clientData: ClientFormData = {
+      displayName: client.name,
+      salutation: 'Mr.',
+      firstName: client.contactPerson.split(' ')[0] || '',
+      lastName: client.contactPerson.split(' ').slice(1).join(' ') || '',
+      contactNumber: '+91 9876543200',
+      mobileNumber: client.phone,
+      email: client.email,
+      companyPincode: '400001',
+      companyStreet: '123 Business Park, Andheri East',
+      companyState: 'Maharashtra',
+      companyCity: client.city,
+      billingPincode: '400002',
+      billingStreet: '456 Commercial Complex, Bandra West',
+      billingState: 'Maharashtra',
+      billingCity: client.city,
+      gstNumber: client.gstNumber,
+      gstTreatment: 'Registered',
+      status: client.status,
+    };
+    setSelectedClient(clientData);
+    setViewDrawerOpen(true);
   };
 
   const columns: ColumnsType<Client> = [
@@ -121,6 +167,7 @@ const Clients = () => {
       title: 'Contact Person',
       dataIndex: 'contactPerson',
       key: 'contactPerson',
+      render: (contactPerson, record) => `${record.salutation} ${contactPerson}`,
     },
     {
       title: 'Email',
@@ -133,10 +180,10 @@ const Clients = () => {
       key: 'phone',
     },
     {
-      title: 'City',
-      dataIndex: 'city',
-      key: 'city',
-      sorter: (a, b) => a.city.localeCompare(b.city),
+      title: 'Company Address',
+      dataIndex: 'address',
+      key: 'address',
+      width: 300,
     },
     {
       title: 'Status',
@@ -181,8 +228,16 @@ const Clients = () => {
     {
       title: 'Actions',
       key: 'actions',
-      render: () => (
+      render: (_, record) => (
         <Space>
+          <Button
+            type="text"
+            icon={<EyeOutlined size={16} />}
+            size="small"
+            onClick={() => handleViewClient(record)}
+          >
+            View
+          </Button>
           <Button type="text" icon={<EditOutlined size={16} />} size="small">
             Edit
           </Button>
@@ -279,6 +334,11 @@ const Clients = () => {
       </Card>
 
       <AddClientDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+      <ViewClientDrawer
+        open={viewDrawerOpen}
+        onClose={() => setViewDrawerOpen(false)}
+        client={selectedClient}
+      />
     </div>
   );
 };

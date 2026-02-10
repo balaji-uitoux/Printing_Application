@@ -86,6 +86,7 @@ export const ProcessCardDragContainer: React.FC<ProcessCardDragContainerProps> =
                       processCard={card}
                       orderNumber={index + 1}
                       totalQty={totalQty}
+                      allProcessCards={processCards}
                       onUpdate={onUpdateCard}
                       onRemove={onRemoveCard}
                       dragHandleProps={provided.dragHandleProps}

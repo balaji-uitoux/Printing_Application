@@ -1,5 +1,5 @@
 import { Drawer, Form, Input, Select, InputNumber, Button, Divider } from 'antd';
-import { CloseOutlined, PlusOutlined, DeleteOutlined, EyeOutlined, DownloadOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { EyeOutlined, DownloadOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
 import { typography } from '../../theme/typography';
 import { themeColors } from '../../theme/themeConfig';
@@ -59,27 +59,6 @@ const CreateQuotationDrawer = ({ open, onClose, enquiryData }: CreateQuotationDr
       ]);
     }
   }, [enquiryData, open, form]);
-
-  const addQuotationLine = () => {
-    setQuotationLines([
-      ...quotationLines,
-      {
-        id: Date.now().toString(),
-        description: '',
-        quantity: 0,
-        board: '',
-        gsm: 0,
-        rate: 0,
-        amount: 0,
-      },
-    ]);
-  };
-
-  const removeQuotationLine = (id: string) => {
-    if (quotationLines.length > 1) {
-      setQuotationLines(quotationLines.filter((line) => line.id !== id));
-    }
-  };
 
   const handleSubmit = () => {
     form.validateFields().then((values) => {

@@ -17,9 +17,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = (username: string, _password: string) => {
     // Simple login - no real authentication
     setUser({
-      username,
       name: username.charAt(0).toUpperCase() + username.slice(1),
-    });
+    } as User);
   };
 
   const logout = () => {

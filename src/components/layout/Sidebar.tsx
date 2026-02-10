@@ -35,7 +35,7 @@ const menuItems: MenuItem[] = [
       { key: 'clients', label: 'Clients', path: '/masters/clients' },
       { key: 'product-categories', label: 'Product Categories', path: '/masters/product-categories' },
       { key: 'products', label: 'Products', path: '/masters/products' },
-      { key: 'boards', label: 'Boards', path: '/masters/boards' },
+      { key: 'pricing', label: 'Pricing', path: '/masters/pricing' },
       { key: 'users', label: 'Users', path: '/masters/users' },
       { key: 'locations', label: 'Locations', path: '/masters/locations' },
       { key: 'machines', label: 'Machines', path: '/masters/machines' },
@@ -58,7 +58,7 @@ const menuItems: MenuItem[] = [
   {
     key: 'orders',
     icon: <ShoppingCartOutlined size={20} />,
-    label: 'Orders',
+    label: 'Job Order',
     path: '/orders',
   },
   {

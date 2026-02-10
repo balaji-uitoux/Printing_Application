@@ -11,6 +11,7 @@ import type { CSSProperties } from 'react';
 // Input & Form Styles
 export const INPUT_STYLES: CSSProperties = {
   height: '40px',
+  width: '100%',
   border: `1px solid ${themeColors.border}`,
   borderRadius: '8px',
 } as const;

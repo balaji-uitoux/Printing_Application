@@ -21,7 +21,6 @@ import {
   DIE_TYPES,
   PLATE_TYPES,
   BOARD_TYPES,
-  UNITS,
   SEVERITY_OPTIONS,
   USER_ROLES,
   DEPARTMENTS,
@@ -100,9 +99,23 @@ export const MASTER_FORM_CONFIGS: Record<string, MasterFormConfig> = {
   // Product Master
   product: {
     title: 'Add Product',
-    width: 600,
+    width: 900,
     submitButtonText: 'Add Product',
     fields: [
+      {
+        label: 'Client/Customer',
+        name: 'client',
+        type: 'select',
+        required: true,
+        placeholder: 'Select client',
+        options: [
+          { label: 'Digsel', value: 'Digsel' },
+          { label: 'Acme Corporation', value: 'Acme Corporation' },
+          { label: 'Tech Solutions Pvt Ltd', value: 'Tech Solutions Pvt Ltd' },
+          { label: 'Green Earth Industries', value: 'Green Earth Industries' },
+          { label: 'Urban Designs Studio', value: 'Urban Designs Studio' },
+        ],
+      },
       {
         label: 'Product Code',
         name: 'code',
@@ -129,21 +142,6 @@ export const MASTER_FORM_CONFIGS: Record<string, MasterFormConfig> = {
         required: true,
         rows: 3,
         placeholder: 'Enter product description...',
-      },
-      {
-        label: 'Unit',
-        name: 'unit',
-        type: 'select',
-        required: true,
-        options: UNITS,
-      },
-      {
-        label: 'Base Price (₹)',
-        name: 'basePrice',
-        type: 'number',
-        required: true,
-        min: 0,
-        placeholder: '100',
       },
       {
         label: 'Status',
@@ -212,6 +210,14 @@ export const MASTER_FORM_CONFIGS: Record<string, MasterFormConfig> = {
     submitButtonText: 'Add Board',
     fields: [
       {
+        label: 'Category',
+        name: 'type',
+        type: 'select',
+        required: true,
+        placeholder: 'Select category',
+        options: BOARD_TYPES,
+      },
+      {
         label: 'Board Code',
         name: 'code',
         required: true,
@@ -222,13 +228,6 @@ export const MASTER_FORM_CONFIGS: Record<string, MasterFormConfig> = {
         name: 'name',
         required: true,
         placeholder: 'Art Card 300 GSM',
-      },
-      {
-        label: 'Type',
-        name: 'type',
-        type: 'select',
-        required: true,
-        options: BOARD_TYPES,
       },
       {
         label: 'GSM',
@@ -249,6 +248,14 @@ export const MASTER_FORM_CONFIGS: Record<string, MasterFormConfig> = {
         name: 'supplier',
         required: true,
         placeholder: 'ABC Papers Ltd',
+      },
+      {
+        label: 'Per KG Rate (₹)',
+        name: 'perKgRate',
+        type: 'number',
+        required: true,
+        min: 0,
+        placeholder: '25',
       },
       {
         label: 'Cost Per Sheet (₹)',
@@ -655,12 +662,6 @@ export const MASTER_FORM_CONFIGS: Record<string, MasterFormConfig> = {
     width: 500,
     submitButtonText: 'Add Category',
     fields: [
-      {
-        label: 'Category Code',
-        name: 'code',
-        required: true,
-        placeholder: 'CAT-001',
-      },
       {
         label: 'Category Name',
         name: 'name',

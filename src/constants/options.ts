@@ -75,6 +75,15 @@ export const BOARD_TYPES: SelectOption[] = [
   { value: 'Kraft Board', label: 'Kraft Board' },
 ];
 
+// Pricing Categories
+export const PRICING_CATEGORIES: SelectOption[] = [
+  { value: 'Board', label: 'Board' },
+  { value: 'Lamination', label: 'Lamination' },
+  { value: 'Printing', label: 'Printing' },
+  { value: 'Die', label: 'Die' },
+  { value: 'Flute', label: 'Flute' },
+];
+
 // Unit Types
 export const UNITS: SelectOption[] = [
   { value: 'Pcs', label: 'Pcs' },

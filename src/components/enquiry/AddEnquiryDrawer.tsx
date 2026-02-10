@@ -1,5 +1,5 @@
 import { Drawer, Form, Input, Select, DatePicker, Button, InputNumber, Upload } from 'antd';
-import { PlusOutlined, CloseOutlined, HomeOutlined, UserOutlined, PhoneOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
+import { PlusOutlined, CloseOutlined, HomeOutlined, UserOutlined, PhoneOutlined, DeleteOutlined, UploadOutlined, IdcardOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { typography } from '../../theme/typography';
 import { themeColors } from '../../theme/themeConfig';
@@ -19,36 +19,49 @@ interface Customer {
   company: string;
   contactPerson: string;
   contactNumber: string;
+  gstNumber: string;
 }
 
 const mockCustomers: Customer[] = [
   {
     id: '1',
-    name: 'Acme Corporation',
-    company: 'Acme Corporation',
-    contactPerson: 'John Smith',
+    name: 'Digsel',
+    company: 'Digsel',
+    contactPerson: 'Rajesh Kumar',
     contactNumber: '+91 9876543210',
+    gstNumber: '29ABCDE1234F1Z5',
   },
   {
     id: '2',
-    name: 'Tech Solutions Pvt Ltd',
-    company: 'Tech Solutions Pvt Ltd',
-    contactPerson: 'Sarah Johnson',
+    name: 'Acme Corporation',
+    company: 'Acme Corporation',
+    contactPerson: 'John Smith',
     contactNumber: '+91 9876543211',
+    gstNumber: '27ABCDE5678G2Z8',
   },
   {
     id: '3',
-    name: 'Green Earth Industries',
-    company: 'Green Earth Industries',
-    contactPerson: 'Michael Chen',
+    name: 'Tech Solutions Pvt Ltd',
+    company: 'Tech Solutions Pvt Ltd',
+    contactPerson: 'Sarah Johnson',
     contactNumber: '+91 9876543212',
+    gstNumber: '29ABCDE9012H3Z1',
   },
   {
     id: '4',
+    name: 'Green Earth Industries',
+    company: 'Green Earth Industries',
+    contactPerson: 'Michael Chen',
+    contactNumber: '+91 9876543213',
+    gstNumber: '33ABCDE3456I4Z4',
+  },
+  {
+    id: '5',
     name: 'Urban Designs Studio',
     company: 'Urban Designs Studio',
     contactPerson: 'Emma Wilson',
-    contactNumber: '+91 9876543213',
+    contactNumber: '+91 9876543214',
+    gstNumber: '29ABCDE7890J5Z7',
   },
 ];
 
@@ -205,6 +218,10 @@ const AddEnquiryDrawer = ({ open, onClose }: AddEnquiryDrawerProps) => {
                   <PhoneOutlined size={16} color="#475569" />
                   <span>{selectedCustomer.contactNumber}</span>
                 </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <IdcardOutlined size={16} color="#475569" />
+                  <span>{selectedCustomer.gstNumber}</span>
+                </div>
               </div>
             )}
           </div>
@@ -287,7 +304,7 @@ const AddEnquiryDrawer = ({ open, onClose }: AddEnquiryDrawerProps) => {
               >
                 <div>#</div>
                 <div>Category</div>
-                <div>Product Lines</div>
+                <div>Products</div>
                 <div>Dimensions (mm)</div>
                 <div>Quantity</div>
                 <div>Description</div>
@@ -312,16 +329,23 @@ const AddEnquiryDrawer = ({ open, onClose }: AddEnquiryDrawerProps) => {
                   <div style={{ fontWeight: 600, color: themeColors.textSecondary }}>{index + 1}</div>
                   <Form.Item style={{ marginBottom: 0 }}>
                     <Select placeholder="Select category" style={inputStyle} size="small">
-                      <Select.Option value="business-cards">Business Cards</Select.Option>
-                      <Select.Option value="brochures">Brochures</Select.Option>
-                      <Select.Option value="flyers">Flyers</Select.Option>
+                      <Select.Option value="Photocards">Photocards</Select.Option>
+                      <Select.Option value="Boxes">Boxes</Select.Option>
+                      <Select.Option value="Slips">Slips</Select.Option>
                     </Select>
                   </Form.Item>
                   <Form.Item style={{ marginBottom: 0 }}>
                     <Select placeholder="Select products" style={inputStyle} size="small">
-                      <Select.Option value="standard">Standard</Select.Option>
-                      <Select.Option value="premium">Premium</Select.Option>
-                      <Select.Option value="luxury">Luxury</Select.Option>
+                      <Select.Option value="ANUSHKA PHOTOCARD">ANUSHKA PHOTOCARD</Select.Option>
+                      <Select.Option value="PUFFY PHOTOCARD">PUFFY PHOTOCARD</Select.Option>
+                      <Select.Option value="MICHELLE PHOTOCARD">MICHELLE PHOTOCARD</Select.Option>
+                      <Select.Option value="TOP - 286 X 199 X 38">TOP - 286 X 199 X 38</Select.Option>
+                      <Select.Option value="BTM - 281 X 194 X 45">BTM - 281 X 194 X 45</Select.Option>
+                      <Select.Option value="EVELY SLIPS PHOTOCARD">EVELY SLIPS PHOTOCARD</Select.Option>
+                      <Select.Option value="XPC - 99 PHOTOCARD">XPC - 99 PHOTOCARD</Select.Option>
+                      <Select.Option value="RIYA KIDS PHOTOCARD">RIYA KIDS PHOTOCARD</Select.Option>
+                      <Select.Option value="AALIA & ANUSHKA SLIPS">AALIA & ANUSHKA SLIPS</Select.Option>
+                      <Select.Option value="PUFFY & KURTHA BOX">PUFFY & KURTHA BOX</Select.Option>
                     </Select>
                   </Form.Item>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '4px' }}>

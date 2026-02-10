@@ -63,8 +63,8 @@ const Header = () => {
       },
       {
         title: (
-          <Link to="/quotations" style={{ color: themeColors.textSecondary }}>
-            Quotations
+          <Link to="/enquiry" style={{ color: themeColors.textSecondary }}>
+            Enquiry
           </Link>
         ),
       },

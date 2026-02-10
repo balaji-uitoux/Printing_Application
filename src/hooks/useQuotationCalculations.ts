@@ -166,7 +166,7 @@ export const useQuotationCalculations = (inputs: CalculationInputs): Calculation
  * Useful for real-time updates in process cards
  */
 export const calculateProcessCost = (
-  processType: string,
+  _processType: string,
   data: ProcessData,
   qty: number
 ): number => {

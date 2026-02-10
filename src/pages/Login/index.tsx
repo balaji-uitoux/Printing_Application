@@ -92,7 +92,7 @@ const Login = () => {
                   background: themeColors.primary,
                   borderColor: themeColors.primary,
                   height: '48px',
-                  ...typography.bodyMedium,
+                  ...typography.body,
                   fontWeight: 600,
                   borderRadius: '50px',
                 }}

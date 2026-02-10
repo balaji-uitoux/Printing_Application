@@ -1,29 +1,35 @@
-import { Drawer, Form, Input, Button, InputNumber } from 'antd';
+import { Drawer, Form, Select, Button, InputNumber } from 'antd';
 import { PlusOutlined, CloseOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { typography } from '../../theme/typography';
 import { themeColors } from '../../theme/themeConfig';
 
-interface AddBoardDrawerProps {
+interface AddLaminationDrawerProps {
   open: boolean;
   onClose: () => void;
 }
 
-interface BoardEntry {
+interface LaminationEntry {
   id: string;
 }
 
-const AddBoardDrawer = ({ open, onClose }: AddBoardDrawerProps) => {
-  const [form] = Form.useForm();
-  const [boards, setBoards] = useState<BoardEntry[]>([{ id: '1' }]);
+const LAMINATION_TYPES = [
+  { value: 'Glossy', label: 'Glossy' },
+  { value: 'Matte', label: 'Matte' },
+  { value: 'UV', label: 'UV' },
+];
 
-  const addBoard = () => {
-    setBoards([...boards, { id: Date.now().toString() }]);
+const AddLaminationDrawer = ({ open, onClose }: AddLaminationDrawerProps) => {
+  const [form] = Form.useForm();
+  const [laminations, setLaminations] = useState<LaminationEntry[]>([{ id: '1' }]);
+
+  const addLamination = () => {
+    setLaminations([...laminations, { id: Date.now().toString() }]);
   };
 
-  const removeBoard = (id: string) => {
-    if (boards.length > 1) {
-      setBoards(boards.filter((board) => board.id !== id));
+  const removeLamination = (id: string) => {
+    if (laminations.length > 1) {
+      setLaminations(laminations.filter((lamination) => lamination.id !== id));
     }
   };
 
@@ -54,7 +60,7 @@ const AddBoardDrawer = ({ open, onClose }: AddBoardDrawerProps) => {
             fontWeight: 700,
             color: themeColors.text,
           }}>
-            Add Boards
+            Add Lamination
           </h2>
           <Button
             type="text"
@@ -112,7 +118,7 @@ const AddBoardDrawer = ({ open, onClose }: AddBoardDrawerProps) => {
               ...typography.body
             }}
           >
-            Add Boards
+            Add Lamination
           </Button>
         </div>
       }
@@ -125,13 +131,13 @@ const AddBoardDrawer = ({ open, onClose }: AddBoardDrawerProps) => {
         }}
       >
         <Form form={form} layout="vertical">
-          {/* Boards Section */}
+          {/* Lamination Section */}
           <div style={{ marginBottom: '16px' }}>
             <h3 style={{ margin: 0, marginBottom: '16px', ...typography.body, fontWeight: 600, fontSize: '16px' }}>
-              Boards
+              Lamination
             </h3>
 
-            {/* Board Table */}
+            {/* Lamination Table */}
             <div
               style={{
                 border: `1px solid ${themeColors.border}`,
@@ -155,35 +161,36 @@ const AddBoardDrawer = ({ open, onClose }: AddBoardDrawerProps) => {
                 }}
               >
                 <div>#</div>
-                <div>Board Name</div>
-                <div>Per KG Rate (₹)</div>
+                <div>Lamination Type</div>
+                <div>Price (₹)</div>
                 <div></div>
               </div>
 
               {/* Table Rows */}
-              {boards.map((board, index) => (
+              {laminations.map((lamination, index) => (
                 <div
-                  key={board.id}
+                  key={lamination.id}
                   style={{
                     display: 'grid',
                     gridTemplateColumns: '40px 1fr 200px 50px',
                     gap: '12px',
                     padding: '12px 16px',
-                    borderBottom: index < boards.length - 1 ? `1px solid ${themeColors.borderLight}` : 'none',
+                    borderBottom: index < laminations.length - 1 ? `1px solid ${themeColors.borderLight}` : 'none',
                     alignItems: 'center',
                   }}
                 >
                   <div style={{ fontWeight: 600, color: themeColors.textSecondary }}>{index + 1}</div>
                   <Form.Item style={{ marginBottom: 0 }}>
-                    <Input
-                      placeholder="Art Card 300 GSM"
+                    <Select
+                      placeholder="Select lamination type"
                       style={inputStyle}
                       size="small"
+                      options={LAMINATION_TYPES}
                     />
                   </Form.Item>
                   <Form.Item style={{ marginBottom: 0 }}>
                     <InputNumber
-                      placeholder="120"
+                      placeholder="250"
                       style={{ ...inputStyle, width: '100%' }}
                       min={0}
                       size="small"
@@ -193,20 +200,20 @@ const AddBoardDrawer = ({ open, onClose }: AddBoardDrawerProps) => {
                     type="text"
                     danger
                     icon={<DeleteOutlined />}
-                    onClick={() => removeBoard(board.id)}
-                    disabled={boards.length === 1}
+                    onClick={() => removeLamination(lamination.id)}
+                    disabled={laminations.length === 1}
                     size="small"
                   />
                 </div>
               ))}
             </div>
 
-            {/* Add Item Button */}
+            {/* Add Lamination Button */}
             <div style={{ marginTop: '12px' }}>
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
-                onClick={addBoard}
+                onClick={addLamination}
                 style={{
                   background: themeColors.primary,
                   borderColor: themeColors.primary,
@@ -215,7 +222,7 @@ const AddBoardDrawer = ({ open, onClose }: AddBoardDrawerProps) => {
                   ...typography.bodySmall
                 }}
               >
-                Add Board
+                Add Lamination
               </Button>
             </div>
           </div>
@@ -225,4 +232,4 @@ const AddBoardDrawer = ({ open, onClose }: AddBoardDrawerProps) => {
   );
 };
 
-export default AddBoardDrawer;
+export default AddLaminationDrawer;
